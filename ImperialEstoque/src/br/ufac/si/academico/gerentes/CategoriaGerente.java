@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import br.ufac.si.academico.entidades.Categoria;
+import br.ufac.si.academico.entidades.Produto;
 
 public class CategoriaGerente {
 	private EntityManagerFactory emf;
@@ -40,6 +41,10 @@ public class CategoriaGerente {
 	public void remover(Categoria categoria) {
 		
 		em.getTransaction().begin();
+		for (Produto prod: categoria.getProdutos()) {
+			prod.setCategoria(null);
+			em.merge(prod);
+		}
 		em.remove(categoria);
 		em.getTransaction().commit();
 		

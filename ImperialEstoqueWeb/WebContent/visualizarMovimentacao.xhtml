@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Movimentações</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous" />
+</head>
+
+<body>
+	<h:form>
+		<h1>Movimentação ##{movimentacaoControlador.mve.id}</h1>
+		<hr />
+		<div class="container-fluid">
+			<div class="row">
+
+				<div class="col-12">
+
+					<div class="form-group">
+						<label for="id">ID</label>
+						<h:inputText value="#{movimentacaoControlador.mve.id}" id="id"
+							class="form-control" readonly="true" />
+					</div>
+
+					<div class="form-group">
+						<label for="tipo">Tipo</label>
+						<h:inputText value="#{movimentacaoControlador.mve.tipo}" id="tipo"
+							class="form-control" readonly="true" />
+					</div>
+
+					<div class="form-group">
+						<label for="data">Data</label>
+						<h:inputText value="#{movimentacaoControlador.mve.data}" id="data"
+							class="form-control" readonly="true" />
+					</div>
+
+					<div class="form-group">
+						<label for="itens">Itens da Movimentação</label>
+					</div>
+
+					<table class="table table-striped table-bordered">
+						<tr>
+							<th>ID Produto</th>
+							<th>Nome</th>
+							<th>Quantidade</th>
+						</tr>
+						<tbody>
+							<ui:repeat var="mvi" value="#{movimentacaoControlador.mve.itens}">
+								<tr>
+									<th>#{mvi.id}</th>
+									<th>#{mvi.produto.nome}</th>
+									<th>#{mvi.quantidade}</th>
+
+								</tr>
+							</ui:repeat>
+						</tbody>
+					</table>
+				</div>
+
+			</div>
+		</div>
+		<h:link outcome="movimentoGerenciador" class="btn btn-danger"
+			style="margin-left: 5px;" value="Voltar" />
+	</h:form>
+
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+</body>
+</html>

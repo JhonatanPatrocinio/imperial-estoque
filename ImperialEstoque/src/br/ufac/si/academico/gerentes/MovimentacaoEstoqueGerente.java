@@ -1,5 +1,6 @@
 package br.ufac.si.academico.gerentes;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class MovimentacaoEstoqueGerente {
 
 	public void adicionar(MovimentacaoEstoque movimentoEstoque) throws Exception {
 		em.getTransaction().begin();
+		movimentoEstoque.setData(new Date());
 		em.persist(movimentoEstoque);
 
 		if (movimentoEstoque.getTipo() == EstoqueChoices.ENTRADA) {
@@ -34,6 +36,7 @@ public class MovimentacaoEstoqueGerente {
 			for(MovimentacaoEstoqueItem item : movimentoEstoque.getItens()) {
 				Produto produto = item.getProduto();
 				if(produto.getQuantidade() < item.getQuantidade()) {
+					em.getTransaction().rollback();
 					throw new Exception("Não temos a quantidade " + item.getQuantidade() + " do Produto " + produto.getNome() + ". A quantidade atual é: " + produto.getQuantidade());
 				}
 				Integer quantidadeAtual = produto.getQuantidade();

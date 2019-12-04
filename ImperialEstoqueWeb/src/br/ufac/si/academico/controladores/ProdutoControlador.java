@@ -60,6 +60,10 @@ public class ProdutoControlador {
 	public List<Produto> getCategoriaPorNomeContendo(){
 		return pg.recuperarTodosPorNomeContendo(chave);
 	}
+	
+	public List<Produto> getProdutoPorNome(){
+		return pg.recuperarTodosPorNome();
+	}
 
 	public String getChave() {
 		return chave;
@@ -67,6 +71,10 @@ public class ProdutoControlador {
 
 	public void setChave(String chave) {
 		this.chave = chave;
+	}
+
+	public Produto recuperar(Integer codigo) {
+		return pg.recuperar(codigo);
 	}
 	
 }

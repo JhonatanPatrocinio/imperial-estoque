@@ -81,8 +81,6 @@ public class MovimentacaoEstoque {
 		this.itens.remove(item);
 	}
 	
-	
-	
 	public List<MovimentacaoEstoqueItem> getItens(){
 		return this.itens;
 	}

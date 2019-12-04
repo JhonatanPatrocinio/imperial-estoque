@@ -10,6 +10,14 @@
     <servlet-name>Faces Servlet</servlet-name>
     <url-pattern>*.xhtml</url-pattern>
   </servlet-mapping>
+  <filter>
+  	<filter-name>loginFiltro</filter-name>
+  	<filter-class>br.ufac.si.academico.filtros.LoginFiltro</filter-class>
+  </filter>
+  <filter-mapping>
+  	<filter-name>loginFiltro</filter-name>
+  	<url-pattern>/*</url-pattern>
+  </filter-mapping>
   <context-param>
     <description>State saving method: 'client' or 'server' (=default). See JSF Specification 2.5.2</description>
     <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
