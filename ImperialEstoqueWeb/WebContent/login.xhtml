@@ -7,7 +7,7 @@
 	  xmlns:ui="http://java.sun.com/jsf/fafcelets">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Template Base</title>
+	<title>Login</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
 </head>
 
@@ -22,16 +22,16 @@
 			
 				<h:form>
 					<div class="form-group">
-						<label for="usuario">Usuário</label>
-						<h:inputText id="usuario" required="true" class="form-control" />
+						<label for="login">Usuário</label>
+						<h:inputText id="login" value="#{loginControlador.login}" required="true" class="form-control" />
 					</div>
 					
 					<div class="form-group">
 						<label for="senha">Senha</label>
-						<h:inputSecret id="senha" required="true" class="form-control" />
+						<h:inputSecret id="senha" value="#{loginControlador.senha}" required="true" class="form-control" />
 					</div>
 					
-					<h:link outcome="index.xhtml" class="btn btn-primary">Acessar</h:link>
+					<h:commandButton value="Logar" action="#{loginControlador.entrar}" class="btn btn-primary" />
 					
 				</h:form>
 			

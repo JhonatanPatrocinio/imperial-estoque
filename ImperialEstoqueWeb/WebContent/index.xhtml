@@ -2,46 +2,92 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	  xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:f="http://java.sun.com/jsf/core"
-	  xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-	<title>Painel de Controle</title>
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Painel de Controle</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css"
+	integrity="sha256-46qynGAkLSFpVbEBog43gvNhfrOj+BmwXdxFgVK/Kvc="
+	crossorigin="anonymous" />
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous" />
 </head>
 
 <body>
-	<h1>Painel de Controle</h1>
-	
-	<hr/>
+
+
+
 	<div class="container">
+
+		<div class="row">
+			<div class="col-10">
+				<h1>
+					<i class="fas fa-cogs" style="margin-right: 2px;"></i> Painel de
+					Controle
+				</h1>
+
+			</div>
+
+			<div class="col-2">
+				<h:form>
+					<h:commandLink action="#{loginControlador.sair}" class="btn btn-danger float-right"
+						style="margin-top: 10px;">
+						<i class="fas fa-sign-out-alt"></i>
+					</h:commandLink>
+				</h:form>
+			</div>
+		</div>
+
+		<hr />
+
 		<div class="row">
 			<div class="col-4">
-			
+
 				<center>
-					<h:link outcome="categoriaGerenciador" class="btn btn-info" value="Gerenciar Categorias" />
+					<h:link outcome="categoriaGerenciador" class="btn btn-info">
+						<i class="fas fa-tags fa-6x" style="color: #FFAE19;"></i>
+						<br></br> Gerenciar Categorias
+						</h:link>
 				</center>
 			</div>
-			
+
 			<div class="col-4">
 				<center>
-					<h:link outcome="produtoGerenciador" class="btn btn-info" value="Gerenciar Produtos" />
+					<h:link outcome="produtoGerenciador" class="btn btn-info">
+						<i class="fas fa-box-open fa-6x" style="color: #5D4037;"></i>
+						<br></br> Gerenciar Produtos
+						</h:link>
 				</center>
 			</div>
-			
+
 			<div class="col-4">
 				<center>
-					<h:link class="btn btn-info" value="Gerenciar Estoque" />
+					<h:link class="btn btn-info">
+						<i class="fas fa-boxes fa-6x" style="color: #9CCC65;"></i>
+						<br></br> Gerenciar Estoque
+					</h:link>
 				</center>
 			</div>
-			
+
 		</div>
 	</div>
-	
-	
-	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
 </body>
 </html>

@@ -30,15 +30,20 @@
 		<div class="row">
 
 			<div class="col-10">
-				<h1>Gerenciamento de Categorias</h1>
+				<h1>
+					<i class="fas fa-tags" style="color: #FFAE19; font-size: 80%;"></i>
+					Gerenciamento de categorias
+				</h1>
 
 			</div>
 
 			<div class="col-2">
-				<h:link outcome="login" class="btn btn-danger float-right" style="margin-top: 10px;">
-					<i class="fas fa-sign-out-alt"></i>
-				</h:link>
-				
+				<h:form>
+					<h:commandLink action="#{loginControlador.sair}"
+						class="btn btn-danger float-right" style="margin-top: 10px;">
+						<i class="fas fa-sign-out-alt"></i>
+					</h:commandLink>
+				</h:form>
 				<h:link outcome="index" class="btn btn-primary float-right"
 					style="margin-top: 10px;">
 					<i class="fas fa-home"></i>
