@@ -18,26 +18,13 @@
 	<h1>Adicionar Movimentação</h1>
 	<hr />
 	<div class="container-fluid">
-		<div class="row">
 
-			<div class="col-12">
 
-				<div class="form-group">
-					<label for="tipo">Operação</label>
-					<h:selectOneMenu class="form-control" id="tipo"
-						value="#{movimentacaoControlador.mve.tipo}">
-						<f:selectItem itemValue="0" itemLabel="ENTRADA" />
-						<f:selectItem itemValue="1" itemLabel="SAIDA" />
-					</h:selectOneMenu>
-				</div>
-			</div>
-		</div>
 
 		<!-- FORM SELECIONAR PRODUTOS -->
-		<h:form>
+		<h:form id="movimento_item">
 			<div class="row">
 				<div class="col-6">
-
 					<div class="form-group">
 						<label for="produto">Produto</label>
 						<h:selectOneMenu class="form-control" id="produto"
@@ -51,7 +38,6 @@
 						</h:selectOneMenu>
 						<h:message for="produto" />
 					</div>
-
 				</div>
 
 				<div class="col-5">
@@ -75,30 +61,56 @@
 			</div>
 		</h:form>
 		<!-- FORM SELECIONAR PRODUTOS -->
+		<h:form>
+			<div class="form-group">
+				<label for="itens">Itens</label>
+			</div>
 
-		<div class="form-group">
-			<label for="itens">Itens</label>
-		</div>
+			<table class="table table-striped table-bordered">
+				<tr>
+					<th>ID Produto</th>
+					<th>Nome</th>
+					<th>Quantidade</th>
+					<th>Remover</th>
 
-		<table class="table table-striped table-bordered">
-			<tr>
-				<th>ID Produto</th>
-				<th>Nome</th>
-				<th>Quantidade</th>
-				
-			</tr>
-			<tbody>
-				<ui:repeat var="mvi" value="#{movimentacaoControlador.mve.itens}">
-					<tr>
-						<th>#{mvi.id}</th>
-						<th>#{mvi.produto.nome}</th>
-						<th>#{mvi.quantidade}</th>
+				</tr>
+				<tbody>
+					<ui:repeat var="mvi" value="#{movimentacaoControlador.mve.itens}">
+						<tr>
+							<th>#{mvi.produto.id}</th>
+							<th>#{mvi.produto.nome}</th>
+							<th>#{mvi.quantidade}</th>
+							<th><h:commandButton
+									action="#{movimentacaoControlador.removerItem(mvi)}" value="X" /></th>
+						</tr>
+					</ui:repeat>
+				</tbody>
+			</table>
+		</h:form>
+		<h:form id="movimento">
+			<div class="row">
+				<div class="col-12">
+					<div class="form-group">
+						<label for="tipo">Operação</label>
+						<h:selectOneMenu class="form-control" id="tipo"
+							value="#{movimentacaoControlador.mve.tipo}">
+							<f:selectItem itemLabel="Selecione" />
+							<f:selectItems value="#{movimentacaoControlador.choices}"
+								var="choice" itemValue="#{choice}"
+								itemLabel="#{choice.descricao}" />
+						</h:selectOneMenu>
+						<h:message for="tipo" />
+					</div>
+				</div>
+			</div>
 
+			<h:commandButton action="#{movimentacaoControlador.adicionar}"
+				value="Adicionar" class="btn btn-success" />
 
-					</tr>
-				</ui:repeat>
-			</tbody>
-		</table>
+			<h:link outcome="movimentoGerenciador" class="btn btn-danger"
+				style="margin-left: 5px;" value="Cancelar" />
+		</h:form>
+
 
 	</div>
 

@@ -1,13 +1,16 @@
 package br.ufac.si.academico.controladores;
 
-import java.util.List;
+import java.util.*;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.*;
+import javax.faces.context.FacesContext;
 
-import br.ufac.si.academico.entidades.Categoria;
 import br.ufac.si.academico.entidades.MovimentacaoEstoque;
 import br.ufac.si.academico.entidades.MovimentacaoEstoqueItem;
-import br.ufac.si.academico.entidades.Produto;
+import br.ufac.si.academico.entidades.enums.EstoqueChoices;
+import br.ufac.si.academico.exceptions.ProdutoIndisponivelException;
+import br.ufac.si.academico.exceptions.ProdutoRepetidoException;
 import br.ufac.si.academico.gerentes.*;
 
 @ManagedBean(name="movimentacaoControlador")
@@ -22,7 +25,7 @@ public class MovimentacaoControlador {
 	public MovimentacaoControlador() {
 		this.mg = new MovimentacaoEstoqueGerente();
 	}
-	
+
 	public String incluir() {
 		this.mve = new MovimentacaoEstoque();
 		this.mvi = new MovimentacaoEstoqueItem();
@@ -31,22 +34,40 @@ public class MovimentacaoControlador {
 	
 	public String adicionar() {
 		try {
-			mg.adicionar(this.mve);
+			if (this.mve.getTipo() != null) {
+				System.out.println(this.mve.getTipo());
+				mg.adicionar(this.mve);				
+			}else {
+				System.out.println("NULL TIPO");
+			}
 			
-		} catch (Exception e) {
-			
+		} catch (ProdutoIndisponivelException e) {
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage("movimento:tipo", new FacesMessage("" + e));
+			return null;
 		}
 		return "movimentoGerenciador";
 	}
 	
 	public String adicionarItem() {
 		try {
+			System.out.println(this.mvi.getProduto().getNome());
 			this.mve.addItem(this.mvi.getProduto().getId(), this.mvi.getQuantidade());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		} catch (ProdutoIndisponivelException e) {
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage("movimento_item:quantidade", new FacesMessage("" + e));
+		} catch (ProdutoRepetidoException e) {
+			System.out.println(e);
+			FacesContext context = FacesContext.getCurrentInstance();
+			context.addMessage("movimento_item:produto", new FacesMessage("" + e));
 		}
 		return null;
+	}
+	
+	public void removerItem(MovimentacaoEstoqueItem item) {
+		System.out.println("REMOVEEEEE");
+		this.mve.removeItem(item);
+		System.out.println(this.mve.getItens());
 	}
 	
 	public MovimentacaoEstoque getMve() {
@@ -73,7 +94,7 @@ public class MovimentacaoControlador {
 	public List<MovimentacaoEstoque> getMovimentacoesTodos(){
 		return mg.recuperarTodos();
 	}
-//
+
 	public String getChave() {
 		return chave;
 	}
@@ -81,6 +102,23 @@ public class MovimentacaoControlador {
 	public void setChave(String chave) {
 		this.chave = chave;
 	}
+	
+	public EstoqueChoices[] getChoices() {
+		return EstoqueChoices.values();
+	}
+	
+	public EstoqueChoices recuperarChoice(String valueString) {
+		return EstoqueChoices.valueOf(valueString);
+	}
+	
+//	public SelectItem[] getChoices() {
+//		SelectItem[] items = EstoqueChoices.values().size();
+//		  int i = 0;
+//		  for (Object x : EstoqueChoices.values()) {
+//		    items[i++] = new SelectItem(x, x.toString());
+//		  }
+//		  return items;
+//	}
 
 
 	

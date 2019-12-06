@@ -9,6 +9,7 @@ import br.ufac.si.academico.entidades.MovimentacaoEstoque;
 import br.ufac.si.academico.entidades.MovimentacaoEstoqueItem;
 import br.ufac.si.academico.entidades.Produto;
 import br.ufac.si.academico.entidades.enums.EstoqueChoices;
+import br.ufac.si.academico.exceptions.ProdutoIndisponivelException;
 
 public class MovimentacaoEstoqueGerente {
 	private EntityManagerFactory emf;
@@ -20,9 +21,10 @@ public class MovimentacaoEstoqueGerente {
 
 	}
 
-	public void adicionar(MovimentacaoEstoque movimentoEstoque) throws Exception {
+	public void adicionar(MovimentacaoEstoque movimentoEstoque) throws ProdutoIndisponivelException {
 		em.getTransaction().begin();
 		movimentoEstoque.setData(new Date());
+		System.out.println(movimentoEstoque.getTipo());
 		em.persist(movimentoEstoque);
 
 		if (movimentoEstoque.getTipo() == EstoqueChoices.ENTRADA) {
@@ -37,7 +39,7 @@ public class MovimentacaoEstoqueGerente {
 				Produto produto = item.getProduto();
 				if(produto.getQuantidade() < item.getQuantidade()) {
 					em.getTransaction().rollback();
-					throw new Exception("Não temos a quantidade " + item.getQuantidade() + " do Produto " + produto.getNome() + ". A quantidade atual é: " + produto.getQuantidade());
+					throw new ProdutoIndisponivelException("Não temos a quantidade " + item.getQuantidade() + " do Produto " + produto.getNome() + ". A quantidade atual é: " + produto.getQuantidade());
 				}
 				Integer quantidadeAtual = produto.getQuantidade();
 				item.getProduto().setQuantidade(quantidadeAtual - item.getQuantidade());
@@ -78,6 +80,12 @@ public class MovimentacaoEstoqueGerente {
 	public List<MovimentacaoEstoque> recuperarTodosPorTipo(Integer tipo){
 		return em.createNamedQuery("MovimentacaoEstoque.todosPorTipo").setParameter("termo", tipo).getResultList();
 	}
+	
+    public List<MovimentacaoEstoque> recuperarPorTipo(EstoqueChoices choice) {
+        final Query query = em.createQuery("SELECT mv FROM MovimentacaoEstoque mv WHERE mv.tipo = :tipo ORDER BY mv.data");
+        query.setParameter("tipo", choice);
+        return query.getResultList();
+    }
 	
 	public void encerrar() {
 		em.close();

@@ -6,12 +6,15 @@ import javax.faces.context.*;
 import javax.faces.convert.*;
 
 import br.ufac.si.academico.controladores.CategoriaControlador;
+import br.ufac.si.academico.controladores.MovimentacaoControlador;
 import br.ufac.si.academico.entidades.Categoria;
+import br.ufac.si.academico.entidades.MovimentacaoEstoque;
+import br.ufac.si.academico.entidades.enums.EstoqueChoices;
 
-@FacesConverter(value="categoriaConversor", forClass=Categoria.class)
-public class CategoriaConversor implements Converter {
+@FacesConverter(value="choicesConversor", forClass=EstoqueChoices.class)
+public class ChoicesConversor implements Converter {
 	
-	private CategoriaControlador cc;
+	private MovimentacaoControlador mc;
 	@Override
 	public Object getAsObject(FacesContext context, 
 			UIComponent component, String value) {
@@ -21,17 +24,18 @@ public class CategoriaConversor implements Converter {
 		ELContext elContext = context.getELContext();
 		ELResolver elResolver = elContext.getELResolver();
 		
-		cc = (CategoriaControlador)elResolver
+		mc = (MovimentacaoControlador)elResolver
 				.getValue(elContext, null, 
-						"categoriaControlador");
-		return cc.recuperar(Integer.valueOf(value));
+						"movimentacaoControlador");
+		System.out.println("Object" + value);
+		return mc.recuperarChoice(value);
 	}
 	@Override
 	public String getAsString(FacesContext context, UIComponent component, Object value) {
-		if(value == null || !(value instanceof Categoria))
+		if(value == null || !(value instanceof EstoqueChoices))
 			return "";
-						
-		return String.valueOf(((Categoria)value).getId());
+		System.out.println("String" + value);
+		return String.valueOf(((EstoqueChoices)value).getDescricao());
 
 	}
 

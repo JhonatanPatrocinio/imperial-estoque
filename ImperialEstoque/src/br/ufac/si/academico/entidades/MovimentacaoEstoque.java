@@ -4,6 +4,8 @@ import java.util.*;
 import javax.persistence.*;
 
 import br.ufac.si.academico.entidades.enums.EstoqueChoices;
+import br.ufac.si.academico.exceptions.ProdutoIndisponivelException;
+import br.ufac.si.academico.exceptions.ProdutoRepetidoException;
 import br.ufac.si.academico.gerentes.ProdutoGerente;
 
 
@@ -12,7 +14,6 @@ import br.ufac.si.academico.gerentes.ProdutoGerente;
 @NamedQueries({
 	@NamedQuery(name="MovimentacaoEstoque.todos", query="SELECT mv FROM MovimentacaoEstoque mv"),
 	@NamedQuery(name="MovimentacaoEstoque.todosPorData", query="SELECT mv FROM MovimentacaoEstoque mv ORDER BY mv.data"),
-	@NamedQuery(name="MovimentacaoEstoque.todosPorTipo", query="SELECT mv FROM MovimentacaoEstoque mv WHERE mv.tipo= :termo ORDER BY mv.data")
 	})
 public class MovimentacaoEstoque {
 	@Id
@@ -20,8 +21,8 @@ public class MovimentacaoEstoque {
 	@Column(name = "ID")
 	private Integer id;
 	
-	@Column(name = "TIPO", nullable = false, length = 1)
-	Integer tipo;
+	@Enumerated(EnumType.STRING)
+	private EstoqueChoices tipo;
 	
 	@Column(name = "DATA", nullable = false)
 	private Date data;
@@ -32,12 +33,11 @@ public class MovimentacaoEstoque {
 	
 	
 	public MovimentacaoEstoque() {
-		
 	}
 	
 	public MovimentacaoEstoque(EstoqueChoices tipo, Date data) {
 		super();
-		this.tipo = tipo.getCod();
+		this.tipo = tipo;
 		this.data = data;
 	}
 
@@ -49,13 +49,13 @@ public class MovimentacaoEstoque {
 	public void setId(Integer id) {
 		this.id = id;
 	}	
-	
+
 	public EstoqueChoices getTipo() {
-		return EstoqueChoices.toEnum(this.tipo);
+		return tipo;
 	}
 
 	public void setTipo(EstoqueChoices tipo) {
-		this.tipo = tipo.getCod();
+		this.tipo = tipo;
 	}
 
 	public Date getData() {
@@ -66,14 +66,19 @@ public class MovimentacaoEstoque {
 		this.data = data;
 	}
 	
-	public void addItem(Integer idProduto, Integer quantidadeProduto) throws Exception {
+	public void addItem(Integer idProduto, Integer quantidadeProduto) throws ProdutoIndisponivelException, ProdutoRepetidoException {
 		ProdutoGerente gerenteProduto = new ProdutoGerente();
 		Produto produto = gerenteProduto.recuperar(idProduto);
 		gerenteProduto.encerrar();
-		if(this.tipo == 1 && produto.getQuantidade() < quantidadeProduto) {
-			throw new Exception("Não temos a quantidade " + quantidadeProduto + " do Produto " + produto.getNome() + ". A quantidade atual é: " + produto.getQuantidade());
+		if(this.tipo == EstoqueChoices.SAIDA && produto.getQuantidade() < quantidadeProduto) {
+			throw new ProdutoIndisponivelException("Não temos a quantidade " + quantidadeProduto + " do Produto " + produto.getNome() + ". A quantidade atual é: " + produto.getQuantidade());
 		}
 		MovimentacaoEstoqueItem item = new MovimentacaoEstoqueItem(quantidadeProduto, this, produto);
+		for (MovimentacaoEstoqueItem i : this.itens) {
+			if (i.getProduto().getId() == item.getProduto().getId()) {
+				throw new ProdutoRepetidoException("Este produto já contem na Movimentação");
+			}
+		}
 		this.itens.add(item);
 	}
 	
